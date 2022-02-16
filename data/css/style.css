@@ -1,0 +1,164 @@
+:root{
+
+    font-size: 10px;
+
+    --bgColorBody: rgb(128, 128, 128);
+    --bgColorSections: rgb(82, 82, 82);
+    --bgColorMessagebox: rgb(206, 206, 206);
+
+}
+
+body{
+
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--bgColorBody);
+
+}
+
+/********************/
+/*      HEADER      */
+/********************/
+
+header{
+
+    background-color: var(--bgColorSections);
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+h1{
+
+    font-size: 5rem;
+
+    margin: 0;
+    margin-left: 3rem;
+
+}
+
+#playerStatsDiv{
+
+    display: flex;
+    justify-content: space-around;
+
+    width: 30%;
+
+    font-size: 2rem;
+
+}
+
+#playerStatsDiv > p{
+
+    width: 18rem;
+
+}
+
+
+/********************/
+/*       MAIN       */
+/********************/
+
+main{
+
+    margin: 3rem;
+    padding: 2rem;
+
+    height: 80vh;
+
+    display: flex;
+    justify-content: space-around;
+
+    background-color: var(--bgColorSections);
+
+    border-radius: 0.5rem;
+
+}
+
+#messageSection{
+
+    background-color: var(--bgColorMessagebox);
+
+    width: 46%;
+    height: 96%;
+
+    margin: auto;
+    padding: 1rem;
+
+    border-radius: inherit;
+
+}
+
+#optionsSection{
+
+    background-color: var(--bgColorMessagebox);
+
+    width: 50%;
+    height: 96%;
+
+    margin: auto;
+    padding: 1rem;
+
+    border-radius: inherit;
+    
+}
+
+/********************/
+/*    MESSAGEBOX    */
+/********************/
+
+#messages{
+
+    max-height: 90%;
+    max-width: 95%;
+    min-height: 90%;
+    min-width: 95%;
+
+    display: block;
+    margin: 0 auto;
+
+    font-size: 1.5rem;
+
+    overflow-y: auto;
+
+}
+
+#userMessage{
+
+    width: 95%;
+    height: 5rem;
+
+    margin: auto;
+
+    display: block;
+
+}
+
+
+
+/********************/
+/*      FOOTER      */
+/********************/
+
+footer{
+
+    font-size: 1.5rem;
+
+    padding: 0.5rem 0;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-color: var(--bgColorSections);
+
+}
+
+footer > a{
+
+    margin-left: 2rem;
+
+}
