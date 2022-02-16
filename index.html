@@ -11,9 +11,10 @@
         <h1>TextAdventure</h1>
 
         <div id="playerStatsDiv">
-            <p class="playerStats">Gold: 999999999$</p>
+            <p class="playerStats">Name: Dick Tracy</p>
+            <!--<p class="playerStats">Gold: 999999999$</p>
             <p class="playerStats">HP: ##########</p>
-            <p class="playerStats">Level: 999</p>
+            <p class="playerStats">Level: 999</p>-->
         </div>
     </header>
 
@@ -22,18 +23,31 @@
 
         <section id="messageSection">
 
-            <div id="messages">
+            <div id="console">
+                <p id="textOutput">
+        
+                </p>
+                <input type="text" id="textInput">
+            </div>
+            <!--<div id="messages">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci veniam temporibus, cupiditate voluptatem natus porro non nostrum! Optio hic officiis, assumenda explicabo facere nemo voluptate, deserunt quas praesentium sit facilis?</p>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia velit ex, dolorem voluptatum ipsum nostrum ea dolores iste quo quod quia maxime a aspernatur doloribus accusamus quis fugit. Dignissimos, ipsum.</p>
             </div>
 
-            <input type="text" name="" id="userMessage">
+            <input type="text" name="" id="userMessage">-->
 
         </section>
 
         <section id="optionsSection">
 
-            
+            <div id="editor">
+                <textarea id="theTextArea"></textarea>
+                <div id="buttons">
+                    <button onclick="scrollEditor('backward')">&lt;</button>
+                    <p id="pageNumber">1</p>
+                    <button onclick="scrollEditor('forward')">&gt;</button>
+                </div>
+            </div>
 
         </section>
 
@@ -47,6 +61,7 @@
 
 
     <script src="data/js/main.js"></script>
+    <script src="data/js/parser.js"></script>
 
 </body>
 </html>
