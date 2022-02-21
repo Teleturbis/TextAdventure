@@ -3,22 +3,54 @@
   "participants": ["woodcutter"],
   "tree": {
     "f4ae91": {
-      "conditions": [{ "flag": "has_not_met_woodcutter" }],
+      "conditions": [],
       "messages": [
-        "Hello there, stranger!",
+        [
+          {
+            "conditions": [{ "flag": "has_not_met_woodcutter" }],
+            "text": "Hello there, stranger!"
+          },
+          {
+            "conditions": [],
+            "text": "Hello, again."
+          }
+        ],
         "What brings you all the way out to my humble hut?"
       ],
       "responses": [
-        { "conditions": [], "text": "I'm just passing through." },
-        { "conditions": [], "text": "I'm on a quest of great importance!" },
+        {
+          "conditions": [],
+          "text": "I'm just passing through.",
+          "outcomes": [{ "goto": "u39pr" }]
+        },
+        {
+          "conditions": [],
+          "text": "I'm on a quest of great importance!",
+          "outcomes": [{ "goto": "e4w13g" }]
+        },
         {
           "conditions": [
-            { "stat": { "alignment": "evil", "charisma": { "more": 3 } } }
+            {
+              "stat": {
+                "alignment": { "evil-good": -1 },
+                "charisma": { "more": 3 }
+              }
+            }
           ],
           "text": "How dare you, a lowly woodcutter, question me?!",
-          "outcome": "a59ed"
+          "outcomes": [{ "goto": "a59ed" }]
         }
       ]
+    },
+    "u39pr": {
+      "conditions": [],
+      "messages": [],
+      "responses": [{ "conditions": [], "text": "", "outcomes": [{}] }]
+    },
+    "e4w13g": {
+      "conditions": [],
+      "messages": [],
+      "responses": [{ "conditions": [], "text": "", "outcomes": [{}] }]
     }
   }
 }
