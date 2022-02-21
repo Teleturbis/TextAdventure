@@ -1,14 +1,23 @@
 {
   "id": "e0810",
-  "participants": ["woodsman"],
+  "participants": ["woodcutter"],
   "tree": {
     "f4ae91": {
-      "conditions": [{ "flag": "has_not_met_woodsman" }],
-      "messages": ["Hello there, stranger!"]
-    },
-    "23c9f": {
-      "conditions": [
-        { "name": "Gold", "quantity": 500, "operator": "more-than" }
+      "conditions": [{ "flag": "has_not_met_woodcutter" }],
+      "messages": [
+        "Hello there, stranger!",
+        "What brings you all the way out to my humble hut?"
+      ],
+      "responses": [
+        { "conditions": [], "text": "I'm just passing through." },
+        { "conditions": [], "text": "I'm on a quest of great importance!" },
+        {
+          "conditions": [
+            { "stat": { "alignment": "evil", "charisma": { "more": 3 } } }
+          ],
+          "text": "How dare you, a lowly woodcutter, question me?!",
+          "outcome": "a59ed"
+        }
       ]
     }
   }
