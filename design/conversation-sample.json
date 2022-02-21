@@ -1,0 +1,15 @@
+{
+  "id": "e0810",
+  "participants": ["woodsman"],
+  "tree": {
+    "f4ae91": {
+      "conditions": [{ "flag": "has_not_met_woodsman" }],
+      "messages": ["Hello there, stranger!"]
+    },
+    "23c9f": {
+      "conditions": [
+        { "name": "Gold", "quantity": 500, "operator": "more-than" }
+      ]
+    }
+  }
+}
