@@ -11,7 +11,7 @@ var aboutToDie = false;
 var dead = false;
 
 function interpreter(input, output, theCmd){
-    const htmlInner = document.getElementById(output);
+    var htmlInner = document.getElementById(output);
     if(dead == false){
         if(document.getElementById(input).value != ""){
             cmd = document.getElementById(input).value;
@@ -54,6 +54,27 @@ function interpreter(input, output, theCmd){
                 case "stats":
                     htmlInner.innerHTML += cmd + "<br>" +
                     buildStats() + "<br>";
+                    break;
+                case "img":
+                    if(cmdList[1] != null){
+                        switch(cmdList[1]){
+                            case "cga":
+                                htmlInner.innerHTML += cmd + "<br>" +
+                                "<img src='cgaredtest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" + "You enter the rundown house." + "<br>";
+                                break;
+                            case "apple":
+                                htmlInner.innerHTML += cmd + "<br>" +
+                                "<img src='appleIItest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" + "You enter the rundown house." + "<br>";
+                                break;
+                            default:
+                                htmlInner.innerHTML += cmd + "<br>" + "no img" + "<br>";
+                                break;
+                        }
+                    }
+                    else{
+                        htmlInner.innerHTML += cmd + "<br>" + "no img" + "<br>";
+                    }
+                    
                     break;
                 case "debug":
                     if(cmdList[1] != null){
