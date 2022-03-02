@@ -39,6 +39,9 @@
 
         <section id="optionsSection">
 
+            <div id="info">
+                <p style="font-size: 2rem; margin: 0px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis perspiciatis temporibus modi sit nobis consequatur magnam, impedit dicta nesciunt cupiditate, doloribus quidem ab enim a aspernatur nam harum, officia assumenda?</p>
+            </div>
             <div id="editor">
                 <textarea id="theTextArea"></textarea>
                 <div id="buttons">
@@ -47,7 +50,10 @@
                     <button onclick="scrollEditor('forward')">&gt;</button>
                 </div>
             </div>
-
+            <div id="menuButtons">
+                <button class="menuButton" onclick="activateMenu('info')">Info</button>
+                <button class="menuButton" onclick="activateMenu('editor')">Notepad</button>    
+            </div>
         </section>
 
     </main>
@@ -59,8 +65,8 @@
     </footer>
 
 
-    <script src="data/js/main.js"></script>
+    <script src="data/js/battleManager.js"></script>
     <script src="data/js/parser.js"></script>
-
+    <script src="data/js/main.js"></script>
 </body>
 </html>

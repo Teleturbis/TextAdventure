@@ -1,140 +1,232 @@
-const input_Name = "textInput";
-const output_Name = "textOutput";
-
-var maxHealth = 20;
-var health = maxHealth;
-
-var level = 1;
-var money = 500;
-
-var aboutToDie = false;
-var dead = false;
-
-function interpreter(input, output, theCmd){
-    var htmlInner = document.getElementById(output);
-    if(dead == false){
-        if(document.getElementById(input).value != ""){
-            cmd = document.getElementById(input).value;
-        }
-        else{
-            cmd = theCmd;
-        }
-        console.log(cmd);
-        if(cmd != undefined) {
-            cmdList = cmd.split(" ");
-            if(cmdList[0] != null){
-                switch(cmdList[0].toLowerCase()) {
-                case "help":
-                    htmlInner.innerHTML += cmd + "<br>" +
-                    "List of Commands:" + "<br>" +
-                    "-move &lt;location&gt;" + "<br>" +
-                    "-look (at &lt;object&gt;)" + "<br>" +
-                    "-stats" + "<br>";
-                    break;
-                case "move":
-                    if(cmdList[1] != null){
-                        htmlInner.innerHTML += cmd + "<br>" +
-                        "You CANT Move" + "<br>";
-                    }
-                    else{
-                        htmlInner.innerHTML += cmd + "<br>" +
-                        "No move location" + "<br>";
-                    }
-                    break;
-                case "look":
-                    if(cmdList[1] != null && cmdList[2] != null){
-                        htmlInner.innerHTML += cmd + "<br>" +
-                        "You See Nothing" + "<br>";
-                    }
-                    else{
-                        htmlInner.innerHTML += cmd + "<br>" +
-                        "You See Nothing" + "<br>";
-                    }
-                    break;
-                case "stats":
-                    htmlInner.innerHTML += cmd + "<br>" +
-                    buildStats() + "<br>";
-                    break;
-                case "img":
-                    if(cmdList[1] != null){
-                        switch(cmdList[1]){
-                            case "cga":
-                                htmlInner.innerHTML += cmd + "<br>" +
-                                "<img src='cgaredtest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" + "You enter the rundown house." + "<br>";
-                                break;
-                            case "apple":
-                                htmlInner.innerHTML += cmd + "<br>" +
-                                "<img src='appleIItest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" + "You enter the rundown house." + "<br>";
-                                break;
-                            default:
-                                htmlInner.innerHTML += cmd + "<br>" + "no img" + "<br>";
-                                break;
-                        }
-                    }
-                    else{
-                        htmlInner.innerHTML += cmd + "<br>" + "no img" + "<br>";
-                    }
-                    
-                    break;
-                case "debug":
-                    if(cmdList[1] != null){
-                        switch(cmdList[1]){
-                        case "AH":
-                            htmlInner.innerHTML += cmd + "<br>" +
-                            "Added " + cmdList[2] + " amount of health" + "<br>";
-                            health += parseInt(cmdList[2]);
-                            break;
-                        case "RH":
-                            htmlInner.innerHTML += cmd + "<br>" +
-                            "Removed " + cmdList[2] + " amount of health" + "<br>";
-                            health -= cmdList[2];
-                            break;
-                        }
-                        
-                    }
-                    break;
-                default:
-                    htmlInner.innerHTML += cmd + "<br>" +
-                    "Command doesn't exist.<br>";
-                    break;
-                }
-                console.log(health + "health")
+var encounter = {
+    enemies:[
+        {
+            name: "yes",
+            stats: {
+                health: 20,
+                attack: 1,
+                defense: 0,
+                speed: 5
+            }
+        },
+        {
+            name: "yes2",
+            stats: {
+                health: 14,
+                attack: 1,
+                defense: 0,
+                speed: 6
+            }
+        },
+        {
+            name: "yes3",
+            stats: {
+                health: 26,
+                attack: 1,
+                defense: 0,
+                speed: 2
             }
         }
-        else {
-            htmlInner.innerHTML += "Command is empty.<br>";
-        }
+    ],
+    rewards:[
+        
+    ]
+}
 
-        if(health <= 0){
-            dead = true;
-            htmlInner.innerHTML += "You died. Type &quot;retry&quot; to try again<br>";
+function interpreter(input, theCmd, charObject){
+    let parserOutput = "";
+    if(charObject.inBattle){
+        console.log(handleEnemies(charObject), "yessyes");
+        parserOutput += handleEnemies(charObject);
+    }
+    let cmd = [];
+    if(document.getElementById(input).value != ""){
+        cmd = document.getElementById(input).value;
+    }
+    else{
+        cmd = theCmd;
+    }
+    //console.log(cmd);
+    if(cmd != undefined) {
+        let cmdList = cmd.split(" ");
+        if(cmdList[0] != null){
+            switch(cmdList[0].toLowerCase()) {
+            case "help":
+                parserOutput += commandDisplayer(cmd, help(charObject));
+                break;
+            case "move":
+                parserOutput += commandDisplayer(cmd, move(cmdList, charObject));
+                break;
+            case "look":
+                parserOutput += commandDisplayer(cmd, look(cmdList, charObject));
+                break;
+            case "stats":
+                parserOutput += charObject.inBattle != true ? commandDisplayer(cmd, buildStats(charObject)) : commandDisplayer(cmd, "You're in battle");
+                break;
+            case "attack":
+                parserOutput += commandDisplayer(cmd, attack(cmdList, charObject, enemys));
+                break;
+            case "debug":
+                parserOutput += charObject.inDebugMode == true ? commandDisplayer(cmd, debug(cmdList, charObject)) : commandDisplayer(cmd, "Not in debug Mode");
+                break;
+            default:
+                parserOutput += commandDisplayer(cmd, "Command doesn't exist.");
+                break;
+            }
+            //console.log(health + "health")
         }
     }
     else {
-        console.log(document.getElementById(input).value);
-        if(document.getElementById(input).value == "retry"){
-            htmlInner.innerHTML += document.getElementById(input).value + "<br>" + "You live again for now.<br>";
-            health = maxHealth/2;
-            dead = false;
-        }
-        else{
-            htmlInner.innerHTML += document.getElementById(input).value + "<br>" + "You cant you are dead. Type &quot;retry&quot; to try again<br>";
-        }
+        parserOutput += "Command is empty.<br>";
     }
+
+    if(charObject.stats.health <= 0){
+        //console.log(charObject.dead + " sassas");
+        charObject.dead = true;
+        parserOutput += commandDisplayer(cmd, "You died. Type &quot;retry&quot; to try again");
+    }
+    if(charObject.inBattle){
+        parserOutput += handleEnemies(charObject);
+    }
+    checkInit();
     document.getElementById(input).value = "";
+    //console.log("ysas" + parserOutput);
+    
+    return parserOutput;
 }
 
-function buildStats(){
+function commandDisplayer(cmdString, outputString){
+    return cmdString + "<br>" + outputString + "<br>";
+}
+
+
+//adventure functions
+function help(charObject){
+    let output = "";
+    if(!charObject.inBattle){
+        output = "List of Commands:" + "<br>" +
+        "-move &lt;location&gt;" + "<br>" +
+        "-look (at &lt;object&gt;)" + "<br>" +
+        "-stats";
+    }
+    else{
+        output += "List of Battle Commands:" + "<br>" +
+        "-move &lt;location&gt;" + "<br>" +
+        "-look";
+    }
+    return output;
+}
+
+function move(cmdList, charObject){
+    let output = "";
+    if(!charObject.inBattle){
+        if(cmdList[1] != null){
+            output += "You CANT Move";
+        }
+        else{
+            output += "No move location";
+        }
+    }
+    else{
+        output += "testbattle";
+    }
+    return output;
+}
+
+function look(cmdList, charObject){
+    let output = "";
+    if(!charObject.inBattle){
+        if(cmdList[1] != null && cmdList[2] != null){
+            output += "You See at Nothing";
+        }
+        else{
+            output += "You See Nothing";
+        }
+    }
+    else{
+        output += displayBattleMap();
+    }
+    
+    return output;
+}
+
+function img(cmdList){
+    let output = "";
+    if(cmdList[2] != null){
+        switch(cmdList[2]){
+            case "cga":
+                output += "<img src='cgaredtest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" +
+                "You enter the rundown house.";
+                break;
+            case "apple":
+                output += "<img src='appleIItest.png' alt='house' width='100%' style='margin-top: 1vh'>" + "<br>" +
+                "You enter the rundown house.";
+                break;
+            default:
+                output += "no img";
+                break;
+        }
+    }
+    else{
+        output += "no img";
+    }
+    return output;
+}
+
+function attack(cmdList, charObject, encounter){
+    let output = "";
+    if(cmdList[1]){
+        //output += "You Attack Nothing";
+        if(!charObject.inBattle){
+            output += startEncounter(cmdList, charObject, encounter);
+        }
+        else{
+            output += attackEnemy(cmdList, charObject);
+        }
+        
+    }
+    else{
+        output += "no target";
+    }
+    return output;
+}
+
+
+//debug
+function debug(cmdList, charObject){
+    let output = "";
+    if(cmdList[1] != null){
+        switch(cmdList[1]){
+        case "AH":
+            output += "Added " + cmdList[2] + " amount of health";
+            charObject.stats.health += parseInt(cmdList[2]);
+            break;
+        case "RH":
+            output += "Removed " + cmdList[2] + " amount of health";
+            charObject.stats.health -= cmdList[2];
+            break;
+        case "IMG":
+            output += img(cmdList);
+            break;
+        }
+        
+    }
+    return output;
+}
+
+
+//display functions
+function buildStats(charObject){
     var statsString = "";
     var healthString = "";
     healthString += "HP: ";
     var extraHealth = 0;
-    if(0 < health - maxHealth){
-        for (let i = 0; i < maxHealth; i++) {
+    if(0 < charObject.stats.health - charObject.stats.maxHealth){
+        for (let i = 0; i < charObject.stats.maxHealth; i++) {
             healthString += "#";
         }
         console.log("hi")
-        extraHealth = health - maxHealth;
+        extraHealth = charObject.stats.health - charObject.stats.maxHealth;
         console.log(healthString)
         healthString += "<span style='color: yellow;'>";
         for (let j = 0; j < extraHealth; j++) {
@@ -143,22 +235,48 @@ function buildStats(){
         healthString += "</span>";
     }
     else{
-        for (let i = 0; i < health; i++) {
+        for (let i = 0; i < charObject.stats.health; i++) {
             healthString += "#";
         }
         healthString += "<span style='color: red;'>";
-        for (let i = 0; i < maxHealth - health; i++) {
+        for (let i = 0; i < charObject.stats.maxHealth - charObject.stats.health; i++) {
             healthString += "-";
         }
         healthString += "</span>";
     }
-    var moneyString = money + " Moneies";
-    var levelString = "Level " + level;
+    var moneyString = charObject.money + " Moneies";
+    var levelString = "Level " + charObject.level;
 
     statsString = levelString + "<br>" + healthString + "<br>" + moneyString;
     return statsString;
 }
 
+function displayBattleMap(){
+    let map = "test";
+    
+    return map;
+}
+
+
+//menu
+var indexItemsStyles = {
+    info: "visibility: visible; height: 100%; padding: 15px",
+    editor: "visibility: visible; height: 100%;"
+}
+
+function activateMenu(nameOf){
+    Object.keys(indexItemsStyles).forEach(element => {
+        document.getElementById(element).style.visibility = "hidden";
+        document.getElementById(element).style.height = "0px";
+        document.getElementById(element).style.padding = "0px";
+    });
+    document.getElementById(nameOf).style = indexItemsStyles[nameOf];
+}
+activateMenu("info");
+
+
+
+//notepad
 var storedBook = false;
 var pageNumber = 1;
 var pageArray = [];
@@ -170,7 +288,6 @@ if(storedBook == false){
 else{
     console.log("got data");
 }
-
 
 function scrollEditor(direction){
     pageArray[pageNumber] = document.getElementById("theTextArea").value;
@@ -189,12 +306,4 @@ function scrollEditor(direction){
     document.getElementById("theTextArea").value = pageArray[pageNumber];
     document.getElementById("pageNumber").innerHTML = pageNumber;
 }
-
-var inputConsole = document.getElementById(input_Name);
-inputConsole.addEventListener("keydown", function(event) {
-    if (event.key == "Enter") {
-        event.preventDefault();
-        interpreter(input_Name, output_Name);
-    }
-});
 

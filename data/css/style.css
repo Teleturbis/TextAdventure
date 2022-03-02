@@ -98,7 +98,7 @@ main{
 
     background-color: var(--bgColorMessagebox);
 
-    width: 46%;
+    width: 50%;
     height: 96%;
 
     margin: auto;
@@ -112,13 +112,15 @@ main{
 
     background-color: var(--bgColorMessagebox);
 
-    width: 50%;
+    width: 46%;
     height: 96%;
 
     margin: auto;
     padding: 0px;
 
     border-radius: inherit;
+    display: flex;
+    flex-direction: column;
     
 }
 
@@ -149,6 +151,14 @@ main{
     color: var(--consoleFG);
     font-size: 24px;
     margin-bottom: 1vh;
+}
+
+#info {
+    background-color: #65ff7e;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
 }
 
 #editor {
@@ -184,6 +194,16 @@ button{
     height: 7.5vh;
     width: 7.5vh;
     font-size: 5vh;
+}
+
+.menuButton{
+    height: 3.75vh;
+    width: auto;
+    font-size: 2vh;
+}
+
+#menuButtons {
+    display: flex;
 }
 
 #messages{
