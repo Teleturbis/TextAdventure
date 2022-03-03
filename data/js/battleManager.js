@@ -1,4 +1,5 @@
 var currentFight = [];
+var currentRewards = [];
 var fightOrder = [];
 var fightIndex = 0;
 var attackInit = false;
@@ -12,6 +13,9 @@ function checkInit(){
 function checkWin(charObject){
     if(currentFight.length == 0){
         charObject.inBattle = false;
+        currentRewards.forEach(item => {
+            charObject.inventory.push(item);
+        });
         return true;
     }
     else{
@@ -19,12 +23,12 @@ function checkWin(charObject){
     }
 }
 
-function startEncounter(cmdList, charObject, enemys){
+function startEncounter(cmdList, charObject, encounter){
     fightIndex = 0;
     let output = "";
     if(cmdList[1]){
         //output += "You attack Nothing";
-        enemys.forEach(function(enemy, idx, array){
+        encounter.enemies.forEach(function(enemy, idx, array){
             if (idx === array.length - 1){ 
                 output += enemy.name + " attacks";
             }
@@ -32,7 +36,8 @@ function startEncounter(cmdList, charObject, enemys){
                 output += enemy.name + " attacks<br>";
             }
          });
-         currentFight = [...enemys];
+         currentFight = [...encounter.enemies];
+         currentRewards = [...encounter.rewards]
          let saveList = [];
          currentFight.forEach(enemy => {
             saveList.push(enemy);

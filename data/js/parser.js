@@ -29,7 +29,7 @@ var encounter = {
         }
     ],
     rewards:[
-        
+
     ]
 }
 
@@ -64,7 +64,7 @@ function interpreter(input, theCmd, charObject){
                 parserOutput += charObject.inBattle != true ? commandDisplayer(cmd, buildStats(charObject)) : commandDisplayer(cmd, "You're in battle");
                 break;
             case "attack":
-                parserOutput += commandDisplayer(cmd, attack(cmdList, charObject, enemys));
+                parserOutput += commandDisplayer(cmd, attack(cmdList, charObject, encounter));
                 break;
             case "debug":
                 parserOutput += charObject.inDebugMode == true ? commandDisplayer(cmd, debug(cmdList, charObject)) : commandDisplayer(cmd, "Not in debug Mode");
@@ -144,7 +144,7 @@ function look(cmdList, charObject){
         }
     }
     else{
-        output += displayBattleMap();
+        output += displayBattleMap(8,4);
     }
     
     return output;
@@ -251,9 +251,33 @@ function buildStats(charObject){
     return statsString;
 }
 
-function displayBattleMap(){
-    let map = "test";
+/*
++-+-+-+-+-+-+-+-+<br>
+|1|2|3|4|5|6|7|8|<br>
++-+-+-+-+-+-+-+-+<br>
+
+
+*/
+function displayBattleMap(xArea, yArea){
+    let map = "";
     
+    map += "<span style='font-family: Consolas, monospace, serif; line-height: 50%;'>"
+
+    for (let i = 0; i < ((yArea*2)+1); i++) {
+        if(i%2==0){
+            for (let j = 0; j < (xArea+1); j++) {
+                map += j != xArea ? "+-" : "+<br>";
+            }
+        }
+        else{
+            for (let j = 0; j < (xArea+1); j++) {
+                map += j != xArea ? "| " : "|<br>";
+            }
+        }
+    }
+
+    map += "</span>"
+
     return map;
 }
 

@@ -21,6 +21,8 @@ var mainChar = {
         speed: 15
     },
 
+    inventory: [],
+
     inBattle: false,
 
     specialMoves: {}
